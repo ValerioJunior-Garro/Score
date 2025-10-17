@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S.C.O.R.E - Início</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #e8f1ff, #f7f9fc);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      text-align: center;
+      padding: 40px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      color: #333;
+      margin-bottom: 10px;
+      animation: slideIn 1s ease-out;
+    }
+
+    h2 strong {
+      color: #51b6fa;
+      
+    
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-top: 15px;
+      border-right: 2px solid #51b6fa;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(40, end) 1s forwards, blink 0.75s step-end infinite;
+    }
+
+    /* Animações */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #51b6fa, 0 0 10px #51b6fa; }
+      to { text-shadow: 0 0 20px #51b6fa, 0 0 30px #51b6fa; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Bem-vindo ao <strong>S.C.O.R.E</strong></h2>
+    <p>Sistema de Comunicação Off-line Rápida Escolar</p>
+  </div>
+</body>
+</html>

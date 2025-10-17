@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resetar Senha - S.C.O.R.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Lado esquerdo -->
+    <div class="left-side">
+      <div class="welcome-text">
+        <h1 class="fade-in">Redefinir Senha</h1>
+        <p class="subtitle">Digite o código recebido e a nova senha</p>
+      </div>
+
+      <form id="formResetar" class="login-form">
+        <div class="input-group">
+          <input type="text" id="codigo" placeholder="Código recebido" required>
+        </div>
+
+        <div class="input-group">
+          <input type="password" id="senha" placeholder="Nova senha" required>
+        </div>
+
+        <button type="submit">Resetar senha</button>
+      </form>
+      
+      <div id="mensagem" style="margin-top:10px; color:white; font-weight:bold;"></div>
+    </div>
+
+    <!-- Lado direito -->
+    <div class="right-side">
+      <img src="./pictures/login.png" alt="Imagem Resetar Senha" />
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById("formResetar").addEventListener("submit", async function(e) {
+      e.preventDefault();
+  
+      let codigo = document.getElementById("codigo").value;
+      let senha  = document.getElementById("senha").value;
+  
+      if (codigo === "" || senha === "") {
+        document.getElementById("mensagem").innerText = "Preencha todos os campos.";
+        return;
+      }
+  
+      try {
+        let resposta = await fetch("resetar_senha.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo: codigo, senha: senha })
+        });
+  
+        let data = await resposta.json();
+        document.getElementById("mensagem").innerText = data.mensagem;
+  
+        // ✅ Só redireciona se for sucesso
+        if (data.status === "sucesso" && data.redirect) {
+          setTimeout(() => {
+            window.location.href = data.redirect;
+          }, 2000); // espera 2 segundos antes de redirecionar
+        }
+      } catch (error) {
+        document.getElementById("mensagem").innerText = "Erro inesperado no servidor.";
+      }
+    });
+  </script>
+  
+</body>
+</html>

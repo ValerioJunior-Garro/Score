@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Esqueci Minha Senha - S.C.O.R.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Lado esquerdo -->
+    <div class="left-side">
+      <div class="welcome-text">
+        <h1 class="fade-in">Esqueci a Senha</h1>
+        <p class="subtitle">Digite seu e-mail cadastrado para receber um código</p>
+      </div>
+
+      <form id="formEsqueci" class="login-form">
+        <div class="input-group">
+          <input type="email" id="email" placeholder="Digite seu e-mail" required>
+        </div>
+
+        <button type="submit">Enviar código</button>
+      </form>
+      
+      <div id="mensagem" style="margin-top:10px; color:white; font-weight:bold;"></div>
+    </div>
+
+    <!-- Lado direito -->
+    <div class="right-side">
+      <img src="./pictures/login.png" alt="Imagem Esqueci Senha" />
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("formEsqueci").addEventListener("submit", async function(e) {
+      e.preventDefault();
+    
+      let email = document.getElementById("email").value;
+      
+      let resposta = await fetch("esqueci_senha.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email })
+      });
+    
+      let data = await resposta.json();
+      document.getElementById("mensagem").innerText = data.mensagem;
+      document.getElementById("mensagem").style.color = (data.status === "ok") ? "lightgreen" : "red";
+
+      // 🔹 Se deu certo, redireciona para resetar senha
+      if (data.status === "ok") {
+        setTimeout(() => {
+          window.location.href = "resetar_senha.html?email=" + encodeURIComponent(email);
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>

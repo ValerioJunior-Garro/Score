@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastrar PC - S.C.O.R.E</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .cadastro-module { 
+      padding: 40px 0; 
+      display: flex; 
+      justify-content: center; 
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .cadastro-box {
+      width: 420px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      padding: 28px;
+      box-sizing: border-box;
+    }
+
+    .cadastro-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #333;
+    }
+    .cadastro-box h2 strong {
+      color:#51b6fa;
+    }
+
+    .cadastro-box form { width: 100%; }
+
+    .cadastro-box input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+      outline: none;
+      box-sizing: border-box;
+      transition: 0.2s;
+    }
+
+    .cadastro-box input:focus {
+      border-color: #51b6fa;
+      box-shadow: 0 0 0 4px rgba(81,182,250,0.08);
+    }
+
+    .cadastro-box button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #51b6fa;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: 0.2s;
+    }
+    .cadastro-box button:hover { 
+      background: #3a9de2; 
+      transform: scale(1.03);
+    }
+    
+    .cadastro-msg { 
+      text-align:center; 
+      margin-top:12px; 
+      font-weight:600; 
+      display:none; 
+      padding:10px; 
+      border-radius:8px; 
+    }
+
+    @media (max-width:520px) {
+      .cadastro-box { width: 92%; padding: 20px; }
+    }
+
+    @keyframes fadeIn {
+      from {opacity:0; transform: translateY(-10px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cadastro-module">
+    <div class="cadastro-box" role="region" aria-label="Formulário de cadastro de PC">
+      <h2>Cadastrar <strong>PC</strong></h2>
+
+      <form id="formCadastroPC" action="cadastrar_pc.php" method="post" autocomplete="off">
+        <input type="text" name="ip" placeholder="IP" required>
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="local" placeholder="Local" required>
+
+        <button type="submit">Cadastrar PC</button>
+      </form>
+
+      <div id="cadastroMsg" class="cadastro-msg" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const form = document.getElementById('formCadastroPC');
+    const msg = document.getElementById('cadastroMsg');
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      msg.style.display = 'none';
+      const fd = new FormData(form);
+
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.sucesso) {
+          msg.textContent = data.mensagem || 'PC cadastrado com sucesso';
+          msg.style.display = 'block';
+          msg.style.background = '#d4edda';
+          msg.style.color = '#155724';
+        } else {
+          msg.textContent = data.mensagem || 'Erro ao cadastrar PC';
+          msg.style.display = 'block';
+          msg.style.background = '#f8d7da';
+          msg.style.color = '#721c24';
+        }
+      } catch (err) {
+        msg.textContent = 'Erro de rede ou resposta inválida.';
+        msg.style.display = 'block';
+        msg.style.background = '#f8d7da';
+        msg.style.color = '#721c24';
+        console.error(err);
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
